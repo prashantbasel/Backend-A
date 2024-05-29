@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const connectDatabase = require('./database/database');
 const dotenv = require('dotenv')
 const cors = require('cors')
+const acceptFormData = require('express-fileupload')
 
 //Creating an express app 
 const app = express();
@@ -22,6 +23,12 @@ dotenv.config()
 // express
 app.use(express.json())
 
+// config form data
+app.use(acceptFormData())
+
+// make a static public folder 
+app.use(express.static("./public"))
+
 //Connecting to database
 connectDatabase()
 
@@ -38,6 +45,8 @@ app.get('/test', (req, res) => {
 
 // configuring ROutes of user 
 app.use('/api/user', require('./routes/userRoutes'))
+
+app.use('/api/product', require('./routes/productRoutes'))
 
 // http://localhost:5000/api/user/create
 
